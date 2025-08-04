@@ -1,0 +1,42 @@
+.authPage {
+    display: flex;
+    min-height: 100vh;
+}
+.leftPanel {
+    position: relative;
+    display: flex;
+    flex: 2;
+    background-color: green;
+    justify-content: center;
+    align-items: center;
+}
+.textBox {
+    background: rgba(255, 255, 255, 0.5 );
+    padding: 50px 70px;
+    border-radius: 10px;
+    text-align: center;
+    
+    z-index: 1;
+}
+.textBox h1 {
+    color: green;
+    font-size: 35px;
+}
+.textBox p {
+    color: black;
+    margin-top: 20px;
+    font-size: 18px;
+}
+.rightPanel {
+    display: flex;
+    flex: 0.85;
+}
+.bgVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
