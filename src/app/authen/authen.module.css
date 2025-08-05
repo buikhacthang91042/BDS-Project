@@ -6,7 +6,6 @@
     position: relative;
     display: flex;
     flex: 2;
-    background-color: green;
     justify-content: center;
     align-items: center;
     animation: sideInLeft 0.8s ease-out forwards;

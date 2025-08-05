@@ -6,7 +6,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 export default function RegisterForm() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   return (
@@ -25,12 +25,12 @@ export default function RegisterForm() {
           onChange={(n) => setName(n.target.value)}
           required
         />
-        <label>Email</label>
+        <label>Số điện thoại</label>
         <input
-          type="email"
-          placeholder="abc@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="number"
+          placeholder="Nhập số điện thoại..."
+          value={phone}
+          onChange={(p) => setPhone(p.target.value)}
           required
         />
 
