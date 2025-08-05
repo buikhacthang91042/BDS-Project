@@ -19,8 +19,8 @@ export default function LoginForm() {
             <label >Mật khẩu</label>
             <input type="password" placeholder='Nhập mật khẩu' value={password} onChange={p => setPassword(p.target.value)} required/>
             <div className={styles.options}>
-                <label >
-                    <a href=""> Đăng kí </a>
+                <label>
+                    <a href="/register"> Đăng kí </a>
                    </label>
                 <label >
                     <a href="">  Quên mật khẩu?</a>
