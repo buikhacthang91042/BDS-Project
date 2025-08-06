@@ -4,11 +4,21 @@ const connectDB = require("./config/db");
 require("dotenv").config();
 connectDB();
 const app = express();
-app.use(cors({
-  origin: "*", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+const allowedOrigins = ["http://localhost:3000" || "https://bds-project-dusky.vercel.app"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization","x-client-type"],
+    credentials: true, // Cho phép gửi credentials (cookies, Authorization)
+  })
+);
 app.use(express.json());
 
 const authRoute = require("./routes/authRoute");

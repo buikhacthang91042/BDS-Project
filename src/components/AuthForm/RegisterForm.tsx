@@ -4,20 +4,39 @@ import { useState } from "react";
 import styles from "./Form.module.css";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import useAuthStore from "../../store/useAuthStore";
+import { useRouter } from "next/navigation";
 export default function RegisterForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { signUp } = useAuthStore();
+  const router = useRouter();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Mật khẩu không khớp");
+      return;
+    }
+    const data = {
+      name,
+      phone,
+      password,
+    };
+    signUp(data, () => {
+      router.push("/authen");
+    });
+  };
   return (
     <div className={styles.container}>
       <Image src={logo} alt="Logo" width={100} height={100} />
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h3>Hey, Hello</h3>
         <p className={styles.smallTitle}>
           Nhập thông tin để đăng kí tài khoản.
         </p>
-         <label>Họ tên</label>
+        <label>Họ tên</label>
         <input
           type="text"
           placeholder="Nhập họ tên..."
@@ -27,7 +46,7 @@ export default function RegisterForm() {
         />
         <label>Số điện thoại</label>
         <input
-          type="number"
+          type="tel"
           placeholder="Nhập số điện thoại..."
           value={phone}
           onChange={(p) => setPhone(p.target.value)}
@@ -42,11 +61,11 @@ export default function RegisterForm() {
           onChange={(p) => setPassword(p.target.value)}
           required
         />
-         <label>Nhập lại mật khẩu</label>
+        <label>Nhập lại mật khẩu</label>
         <input
           type="password"
           placeholder="Nhập lại mật khẩu"
-          value={password}
+          value={confirmPassword}
           onChange={(rp) => setConfirmPassword(rp.target.value)}
           required
         />
