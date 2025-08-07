@@ -1,74 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterInput, RegisterSchema } from "../../../schemas/registerSchema";
 import styles from "./Form.module.css";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import useAuthStore from "../../store/useAuthStore";
 import { useRouter } from "next/navigation";
+
 export default function RegisterForm() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const { signUp } = useAuthStore();
   const router = useRouter();
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Mật khẩu không khớp");
-      return;
-    }
-    const data = {
-      name,
-      phone,
-      password,
-    };
-    signUp(data, () => {
-      router.push("/authen");
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const onSubmit = (data: RegisterInput) => {
+    signUp(
+      { name: data.name, phone: data.phone, password: data.password , 
+        confirmPassword: data.confirmPassword},
+      () => {
+        router.push("/authen");
+      }
+    );
   };
+
   return (
     <div className={styles.container}>
       <Image src={logo} alt="Logo" width={100} height={100} />
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Hey, Hello</h3>
-        <p className={styles.smallTitle}>
-          Nhập thông tin để đăng kí tài khoản.
-        </p>
+        <p className={styles.smallTitle}>Nhập thông tin để đăng kí tài khoản.</p>
         <label>Họ tên</label>
-        <input
-          type="text"
-          placeholder="Nhập họ tên..."
-          value={name}
-          onChange={(n) => setName(n.target.value)}
-          required
-        />
+        <input {...register("name")} placeholder="Nhập họ tên..." />
+        {errors.name && <span className={styles.validate}>{errors.name.message}</span>}
         <label>Số điện thoại</label>
-        <input
-          type="tel"
-          placeholder="Nhập số điện thoại..."
-          value={phone}
-          onChange={(p) => setPhone(p.target.value)}
-          required
-        />
-
+        <input {...register("phone")} type="tel" placeholder="Nhập số điện thoại..." />
+        {errors.phone && <span className={styles.validate}>{errors.phone.message}</span>}
         <label>Mật khẩu</label>
-        <input
-          type="password"
-          placeholder="Nhập mật khẩu"
-          value={password}
-          onChange={(p) => setPassword(p.target.value)}
-          required
-        />
+        <input {...register("password")} type="password" placeholder="Nhập mật khẩu" />
+        {errors.password && <span className={styles.validate}>{errors.password.message}</span>}
         <label>Nhập lại mật khẩu</label>
-        <input
-          type="password"
-          placeholder="Nhập lại mật khẩu"
-          value={confirmPassword}
-          onChange={(rp) => setConfirmPassword(rp.target.value)}
-          required
-        />
+        <input {...register("confirmPassword")} type="password" placeholder="Nhập lại mật khẩu" />
+        {errors.confirmPassword && <span className={styles.validate}>{errors.confirmPassword.message}</span>}
         <div className={styles.options}>
           <label>
             <a href="/authen"> Đăng nhập </a>
@@ -78,13 +57,8 @@ export default function RegisterForm() {
         <div className={styles.divider}>
           <span>HOẶC</span>
         </div>
-
-        <button type="button" className={styles.google}>
-          Đăng nhập với Google
-        </button>
-        <button type="button" className={styles.facebook}>
-          Đăng nhập với Facebook
-        </button>
+        <button type="button" className={styles.google}>Đăng nhập với Google</button>
+        <button type="button" className={styles.facebook}>Đăng nhập với Facebook</button>
       </form>
     </div>
   );

@@ -1,27 +1,30 @@
 import { create } from "zustand";
 import axiosInstance from "../lib/axios";
 import { toast } from "react-toastify";
+
 interface AuthState {
   isSigningup: boolean;
   authUser: { name: string; phone: string } | null;
   tempSignupData: { name: string; phone: string; password: string } | null;
 }
+
 interface AuthActions {
   signUp: (
     data: {
       name: string;
       phone: string;
       password: string;
+      confirmPassword?: string;
     },
     navigate: () => void
   ) => Promise<void>;
-
   storeTempSignupData: (data: {
     name: string;
     phone: string;
     password: string;
   }) => void;
 }
+
 const useAuthStore = create<AuthState & AuthActions>((set) => ({
   isSigningup: false,
   authUser: null,
@@ -35,20 +38,15 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
         toast.success(res.data.message || "Đăng kí thành công");
         set({ authUser: { name: data.name, phone: data.phone } });
         navigate();
-      } else if (res.status === 400) {
-        toast.error(res.data.message || "Đăng kí thất bại");
       } else {
-        toast.error(res.data.message || "Đăng kí thất bại1");
+        toast.error(res.data.message || "Đăng kí thất bại");
       }
     } catch (error) {
       const err = error as {
         response?: { status: number; data?: { message?: string } };
       };
       if (err.response?.status === 400) {
-        toast.error(
-          err.response.data?.message ||
-            "Số điện thoại đã tồn tại hoặc dữ liệu không hợp lệ"
-        );
+        toast.error(err.response.data?.message || "Dữ liệu không hợp lệ");
       } else {
         toast.error("Không thể kết nối đến server");
       }
@@ -56,8 +54,10 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
       set({ isSigningup: false });
     }
   },
+
   storeTempSignupData: (data) => {
     set({ tempSignupData: data });
   },
 }));
+
 export default useAuthStore;
