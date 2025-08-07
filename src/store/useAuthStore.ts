@@ -29,6 +29,7 @@ interface AuthActions {
     navigate: () => void
   ) => Promise<void>;
   logout: () => void;
+  fetchAuthUserFromToken: () => Promise<void>;
 }
 
 const useAuthStore = create<AuthState & AuthActions>((set) => ({
@@ -94,6 +95,22 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
   },
   storeTempSignupData: (data) => {
     set({ tempSignupData: data });
+  },
+  fetchAuthUserFromToken: async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+    try {
+      const res = await axiosInstance.get("/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 200) {
+        set({ authUser: res.data });
+      }
+    } catch (error) {
+      console.error("Token hết hạn hoặc không hợp lệ");
+      localStorage.removeItem("authToken");
+      set({ authUser: null });
+    }
   },
 }));
 
