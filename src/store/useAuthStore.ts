@@ -23,13 +23,51 @@ interface AuthActions {
     phone: string;
     password: string;
   }) => void;
+  login: (
+    phone: string,
+    password: string,
+    navigate: () => void
+  ) => Promise<void>;
+  logout: () => void;
 }
 
 const useAuthStore = create<AuthState & AuthActions>((set) => ({
   isSigningup: false,
   authUser: null,
   tempSignupData: null,
+  logout: () => {
+    localStorage.removeItem("authToken");
+    set({ authUser: null });
+    toast.success("Đăng xuất thành công");
+  },
 
+  login: async (phone, password, navigate) => {
+    try {
+      const res = await axiosInstance.post("/login", { phone, password });
+      if (res.status === 200) {
+        const { token, user } = res.data;
+        localStorage.setItem("authToken", token);
+        set({ authUser: user });
+        toast.success("Đăng nhập thành công");
+        navigate();
+      } else {
+        toast.error(res.data.message || "Đăng nhập thất bại");
+      }
+    } catch (error) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
+      if (err.response?.status === 400) {
+        toast.error(
+          err.response.data?.message || "Số điện thoại hoặc mật khẩu không đúng"
+        );
+      } else if (err.response?.status === 401) {
+        toast.error("Số điện thoại hoặc mật khẩu không đúng");
+      } else {
+        toast.error("Không thể kết nối đến server");
+      }
+    }
+  },
   signUp: async (data, navigate) => {
     set({ isSigningup: true });
     try {
@@ -54,7 +92,6 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
       set({ isSigningup: false });
     }
   },
-
   storeTempSignupData: (data) => {
     set({ tempSignupData: data });
   },

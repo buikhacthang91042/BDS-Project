@@ -22,12 +22,11 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "x-client-type"],
-    credentials: true, // Cho phép gửi credentials (cookies, Authorization)
+    credentials: true,
   })
 );
 app.use(express.json());
 
-const { connect } = require("http2");
 app.use("/api/auth", authRoute);
 
 const PORT: number = parseInt(process.env.PORT || "5001", 10);

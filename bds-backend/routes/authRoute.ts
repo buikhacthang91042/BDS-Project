@@ -5,4 +5,6 @@ import { RegisterSchema } from "../../schemas/registerSchema";
 
 const router: Router = express.Router();
 router.post("/register", validateBody(RegisterSchema), authController.register);
+router.post("/login", authController.login);
+
 export default router;

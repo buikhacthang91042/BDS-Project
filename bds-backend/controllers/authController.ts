@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User from "../models/User";
 
 export const register = async (req: Request, res: Response) => {
@@ -27,4 +28,29 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export default { register };
+export const login = async (req: Request, res: Response) => {
+  const { phone, password } = req.body;
+  try {
+    const user = await User.findOne({ phone });
+    if (!user)
+      return res.status(400).json({ message: "Người dùng không tồn tại" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.status(400).json({ messagge: "Mật khẩu không đúng" });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
+    return res.status(200).json({
+      message: "Đăng nhập thành công",
+      token,
+      user: {
+        name: user.name,
+        phone: user.phone,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Lỗi server" });
+  }
+};
+export default { register, login };
