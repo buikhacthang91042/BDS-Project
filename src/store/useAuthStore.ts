@@ -11,10 +11,12 @@ interface AuthState {
 interface AuthActions {
   signUp: (
     data: {
-      name: string;
+      firstName: string;
+      lastName: string;
       phone: string;
       password: string;
       confirmPassword?: string;
+      
     },
     navigate: () => void
   ) => Promise<void>;
@@ -75,7 +77,12 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
       const res = await axiosInstance.post("/register", data);
       if (res.status === 201) {
         toast.success(res.data.message || "Đăng kí thành công");
-        set({ authUser: { name: data.name, phone: data.phone } });
+        set({
+          authUser: {
+            name: `${data.firstName} ${data.lastName}`.trim(),
+            phone: data.phone,
+          },
+        });
         navigate();
       } else {
         toast.error(res.data.message || "Đăng kí thất bại");

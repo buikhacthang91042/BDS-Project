@@ -4,6 +4,9 @@ export default function RegisterPage() {
     return (
         <div className={styles.authPage}>
             <div className={styles.leftPanel}>
+               <RegisterForm />
+            </div>
+            <div className={styles.rightPanel}>
                 <video autoPlay muted loop playsInline className={styles.bgVideo}>
                     <source src="/bgVideo.mp4" type='video/mp4'/>
                 </video>
@@ -13,9 +16,7 @@ export default function RegisterPage() {
 
                 </div>
             </div>
-            <div className={styles.rightPanel}>
-               <RegisterForm />
-            </div>
+            
         </div>
     )
 

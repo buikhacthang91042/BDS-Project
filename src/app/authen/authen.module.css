@@ -2,10 +2,10 @@
     display: flex;
     min-height: 100vh;
 }
-.leftPanel {
+.rightPanel {
     position: relative;
     display: flex;
-    flex: 2;
+    flex: 1;
     justify-content: center;
     align-items: center;
     animation: sideInLeft 0.8s ease-out forwards;
@@ -28,9 +28,9 @@
     margin-top: 20px;
     font-size: 18px;
 }
-.rightPanel {
+.leftPanel {
     display: flex;
-    flex: 0.85;
+    flex: 1;
     animation: sideInRight 0.8s ease-out forwards;
     transform: translateX(100%);
 }

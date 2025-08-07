@@ -8,6 +8,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 import useAuthStore from "../../store/useAuthStore";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function RegisterForm() {
   const { signUp } = useAuthStore();
@@ -19,11 +20,25 @@ export default function RegisterForm() {
   } = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
   });
+  const [agreeTermsError, setAgreeTermsError] = useState<string | null>(null);
 
   const onSubmit = (data: RegisterInput) => {
+    setAgreeTermsError(null);
+    const isChecked = (
+      document.getElementById("agreeTerms") as HTMLInputElement
+    ).checked;
+    if (!isChecked) {
+      setAgreeTermsError("Vui lòng xác nhận điều khoản dịch vụ.");
+      return;
+    }
     signUp(
-      { name: data.name, phone: data.phone, password: data.password , 
-        confirmPassword: data.confirmPassword},
+      {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+      },
       () => {
         router.push("/authen");
       }
@@ -32,33 +47,92 @@ export default function RegisterForm() {
 
   return (
     <div className={styles.container}>
-      <Image src={logo} alt="Logo" width={100} height={100} />
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <h3>Hey, Hello</h3>
-        <p className={styles.smallTitle}>Nhập thông tin để đăng kí tài khoản.</p>
-        <label>Họ tên</label>
-        <input {...register("name")} placeholder="Nhập họ tên..." />
-        {errors.name && <span className={styles.validate}>{errors.name.message}</span>}
+        <h3>Đăng kí</h3>
+        <p className={styles.smallTitle}>
+          Nhập thông tin để đăng kí tài khoản.
+        </p>
+        <div className={styles.otherMethod}>
+          <button type="button" className={styles.google}>
+            Đăng nhập với Google
+          </button>
+          <button type="button" className={styles.facebook}>
+            Đăng nhập với Facebook
+          </button>
+        </div>
+        <div className={styles.divider}>
+          <span>HOẶC</span>
+        </div>
+        <div className={styles.items}>
+          <div className={styles.item}>
+            <label>Họ đệm</label>
+            <input {...register("firstName")} placeholder="Nhập họ đệm..." />
+            {errors.firstName && (
+              <span className={styles.validate}>
+                {errors.firstName.message}
+              </span>
+            )}
+          </div>
+          <div className={styles.item}>
+            <label>Tên</label>
+            <input {...register("lastName")} placeholder="Nhập tên..." />
+            {errors.lastName && (
+              <span className={styles.validate}>{errors.lastName.message}</span>
+            )}
+          </div>
+        </div>
         <label>Số điện thoại</label>
-        <input {...register("phone")} type="tel" placeholder="Nhập số điện thoại..." />
-        {errors.phone && <span className={styles.validate}>{errors.phone.message}</span>}
-        <label>Mật khẩu</label>
-        <input {...register("password")} type="password" placeholder="Nhập mật khẩu" />
-        {errors.password && <span className={styles.validate}>{errors.password.message}</span>}
-        <label>Nhập lại mật khẩu</label>
-        <input {...register("confirmPassword")} type="password" placeholder="Nhập lại mật khẩu" />
-        {errors.confirmPassword && <span className={styles.validate}>{errors.confirmPassword.message}</span>}
+        <input
+          {...register("phone")}
+          type="tel"
+          placeholder="Nhập số điện thoại..."
+        />
+        {errors.phone && (
+          <span className={styles.validate}>{errors.phone.message}</span>
+        )}
+        <div className={styles.items}>
+          <div className={styles.item}>
+            <label>Mật khẩu</label>
+            <input
+              {...register("password")}
+              type="password"
+              placeholder="Nhập mật khẩu"
+            />
+            {errors.password && (
+              <span className={styles.validate}>{errors.password.message}</span>
+            )}
+          </div>
+          <div className={styles.item}>
+            <label>Nhập lại mật khẩu</label>
+            <input
+              {...register("confirmPassword")}
+              type="password"
+              placeholder="Nhập lại mật khẩu"
+            />
+            {errors.confirmPassword && (
+              <span className={styles.validate}>
+                {errors.confirmPassword.message}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className={styles.checkboxContainer}>
+          <input type="checkbox" id="agreeTerms" className={styles.checkbox} />
+          <label htmlFor="agreeTerms">
+            Bằng việc tạo tài khoản, bạn đồng ý với{" "}
+            <a href="/terms">Điều khoản dịch vụ và Chính sách bảo mật </a>của
+            chúng tôi.
+          </label>
+        </div>
+        {agreeTermsError && (
+          <span className={styles.validate}>{agreeTermsError}</span>
+        )}
+        <button type="submit">Đăng kí</button>
         <div className={styles.options}>
           <label>
             <a href="/authen"> Đăng nhập </a>
           </label>
         </div>
-        <button type="submit">Đăng kí</button>
-        <div className={styles.divider}>
-          <span>HOẶC</span>
-        </div>
-        <button type="button" className={styles.google}>Đăng nhập với Google</button>
-        <button type="button" className={styles.facebook}>Đăng nhập với Facebook</button>
       </form>
     </div>
   );

@@ -4,6 +4,9 @@ export default function AuthenPage() {
     return (
         <div className={styles.authPage}>
             <div className={styles.leftPanel}>
+                <LoginForm />
+            </div>
+            <div className={styles.rightPanel}>
                 <video autoPlay muted loop playsInline className={styles.bgVideo}>
                     <source src="/bgVideo.mp4" type='video/mp4'/>
                 </video>
@@ -13,9 +16,7 @@ export default function AuthenPage() {
 
                 </div>
             </div>
-            <div className={styles.rightPanel}>
-                <LoginForm />
-            </div>
+            
         </div>
     )
 

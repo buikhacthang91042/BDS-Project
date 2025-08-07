@@ -6,7 +6,8 @@ import { get } from "http";
 
 export const register = async (req: Request, res: Response) => {
   console.log("Received request to /api/auth/register:", req.body);
-  const { name, phone, password } = req.body;
+  const { firstName, lastName, phone, password } = req.body;
+  const name = `${firstName} ${lastName}`.trim();
 
   try {
     const existingUser = await User.findOne({ phone });
