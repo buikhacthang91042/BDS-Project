@@ -9,7 +9,8 @@ import logo from "@/assets/logo.png";
 import useAuthStore from "../../store/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import googleLogo from "../../assets/google.png";
+import facebooklogo from "../../assets/facebook.png";
 export default function RegisterForm() {
   const { signUp } = useAuthStore();
   const router = useRouter();
@@ -53,12 +54,17 @@ export default function RegisterForm() {
           Nhập thông tin để đăng kí tài khoản.
         </p>
         <div className={styles.otherMethod}>
-          <button type="button" className={styles.google}>
-            Đăng nhập với Google
-          </button>
-          <button type="button" className={styles.facebook}>
-            Đăng nhập với Facebook
-          </button>
+          <div className={styles.otherItemAuthen}>
+            <Image src={googleLogo} alt="google" />
+            <button type="button" className={styles.google}>
+              Đăng nhập với Google
+            </button>
+          </div>
+          <div className={styles.otherItemAuthen}>
+            <button type="button" className={styles.facebook}>
+              Đăng nhập với Facebook
+            </button>
+          </div>
         </div>
         <div className={styles.divider}>
           <span>HOẶC</span>
