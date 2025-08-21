@@ -12,9 +12,9 @@
     flex-direction: column;
     width: 100%;
     gap: 12px;
-    max-width: 450px; 
+    max-width: 520px; 
     background-color: #fff; 
-    margin-top: 10px;
+    margin-top: 16px;
 }
 
 .form h3 {
@@ -29,6 +29,110 @@
     margin-bottom: 15px;
 }
 
+.otherItemAuthen {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  align-items: center;
+  background-color: rgba(190, 190,190, 0.3);
+  justify-content: center;
+  border: 1px solid rgba(190, 190,190, 0.3);
+  border-radius: 6px;
+}
+.otherItemAuthen:hover {
+  background-color: #e0e0e0;
+}
+.iconOtherPlatform {
+  object-fit: contain;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+}
+.otherMethod {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.google,
+.facebook {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+    text-align: center;
+    border: none;
+    background-color: rgba(190, 190,190,0.03);
+    color: #333;
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%; 
+    font-size: 16px;
+    font-weight: 540;
+    cursor: pointer;
+  
+}
+.iconBack {
+  object-fit: contain;
+  width: 22px;
+  height: 22px;
+ 
+  margin-top: -14px;
+}
+.back {
+  display: flex;
+  flex:0.5;
+   width: 22px;
+  height: 22px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+    text-align: center;
+    border: none;
+    margin-top: 14px;
+  object-fit: content;
+    width: 100%; 
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+  
+}
+.buttonBackTitle {
+  display: flex;
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 15px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+}
+.backTitle {
+  width: 220px;
+  
+}
+.backToDashBoard {
+  display: flex;
+  flex-direction: row;
+ 
+  margin-left: -290px;
+  margin-top: -40px;
+}
+.backToDashBoard p {
+  align-self: center;
+} 
+.options {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+.optionsLogin {
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
 .form label {
     font-size: 14px;
     color: black;
@@ -44,10 +148,8 @@
     margin-top: -14px;
 }
 
-.form button {
+.registerbuton,.loginbutton {
     padding: 16px;
-    background-color: lightgray;
-    color: white;
     font-weight: bold;
     border-radius: 6px;
     border: none;
@@ -55,6 +157,7 @@
     width: 100%;
     margin-top: 8px;
 }
+
 .divider {
   display: flex;
   align-items: center;
@@ -81,7 +184,7 @@
 }
 
 .form button:hover {
-    background-color: #45a049;
+    background-color:rgba(211, 211, 211, 0.5); ;
 }
 
 .alt {
@@ -90,26 +193,7 @@
     margin: 10px 0;
 }
 
-.google,
-.facebook {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 6px;
-    width: 100%; 
-    cursor: pointer;
-}
 
-.google:hover,
-.facebook:hover {
-    background-color: #e0e0e0;
-}
-.options {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-}
 .validate{
     color: red;
     font-size: 14px;
@@ -117,11 +201,15 @@
 .otherMethod {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
 }
 .items{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
     gap: 20px;
@@ -143,7 +231,7 @@
 .checkbox {
   width: 18px;
   height: 18px;
-  margin-left: -50px;
+  margin-left: -115px;
   cursor: pointer;
   accent-color: #45a049; 
   
@@ -151,7 +239,7 @@
 
 .checkboxContainer label {
   font-size: 14px;
-  margin-left: -180px;
+  margin-left: -240px;
   color: black;
   font-weight: normal; 
 }
@@ -163,4 +251,26 @@
 
 .checkboxContainer a:hover {
   color: #2d6a31;
+}
+.login,.register {
+  color: rgb(56, 126, 255);
+  cursor: pointer;
+  margin-left: 6px;
+}
+.login:hover {
+  text-decoration: underline;
+  color: rgb(127, 169, 246)
+}
+.otherMethodLogin {
+   background-color: rgba(190, 190,190,0.4);
+   border-radius: 6px;
+   border: 1px solid  rgba(190, 190,190,0.4);
+}
+.forgetPassword {
+  color: rgb(142, 34, 34)
+}
+.navigateToRegis {
+  display: flex;
+  flex-direction: row;
+  
 }

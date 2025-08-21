@@ -77,7 +77,7 @@ const menus: MenuItem[] = [
     label: "Phân tích đánh giá",
     children: [
       { label: "Biểu đồ giá", link: "" },
-      { label: "Video đánh giá", link: "" },
+      { label: "Điểm nóng, xu hướng thị trường", link: "/trends" },
       { label: "Báo cáo thị trường", link: "" },
       { label: "Góc nhìn chuyên gia", link: "" },
     ],
@@ -141,6 +141,7 @@ export default function Header() {
           </div>
           |
           <div className={styles.optionAuthenItem}>
+            
             <Link href="/register" className={styles.authLink}>
               Đăng kí
             </Link>

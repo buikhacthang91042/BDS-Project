@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import axiosInstance from "../lib/axios";
+import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
 
 interface AuthState {
@@ -16,7 +16,6 @@ interface AuthActions {
       phone: string;
       password: string;
       confirmPassword?: string;
-      
     },
     navigate: () => void
   ) => Promise<void>;

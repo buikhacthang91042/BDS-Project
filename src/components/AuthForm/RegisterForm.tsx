@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import googleLogo from "../../assets/google.png";
 import facebooklogo from "../../assets/facebook.png";
+import backlogo from "../../assets/back.png";
 export default function RegisterForm() {
   const { signUp } = useAuthStore();
   const router = useRouter();
@@ -48,6 +49,15 @@ export default function RegisterForm() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.backToDashBoard}>
+        <a href="/" className={styles.buttonBackTitle}>
+          <button type="button" className={styles.back}>
+            <Image src={backlogo} alt="google" className={styles.iconBack} />
+          </button>
+          <p className={styles.backTitle}>Quay về trang chủ</p>
+        </a>
+      </div>
+
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Đăng kí</h3>
         <p className={styles.smallTitle}>
@@ -55,14 +65,23 @@ export default function RegisterForm() {
         </p>
         <div className={styles.otherMethod}>
           <div className={styles.otherItemAuthen}>
-            <Image src={googleLogo} alt="google" />
             <button type="button" className={styles.google}>
-              Đăng nhập với Google
+              <Image
+                src={googleLogo}
+                alt="google"
+                className={styles.iconOtherPlatform}
+              />
+              <p>Đăng nhập với Google</p>
             </button>
           </div>
           <div className={styles.otherItemAuthen}>
             <button type="button" className={styles.facebook}>
-              Đăng nhập với Facebook
+              <Image
+                src={facebooklogo}
+                alt="google"
+                className={styles.iconOtherPlatform}
+              />
+              <p>Đăng nhập với Facebook</p>
             </button>
           </div>
         </div>
@@ -133,10 +152,16 @@ export default function RegisterForm() {
         {agreeTermsError && (
           <span className={styles.validate}>{agreeTermsError}</span>
         )}
-        <button type="submit">Đăng kí</button>
+        <button type="submit" className={styles.registerbuton}>
+          Đăng kí
+        </button>
         <div className={styles.options}>
+          <p>Bạn đã có tài khoản?</p>
           <label>
-            <a href="/authen"> Đăng nhập </a>
+            <a href="/authen" className={styles.login}>
+              {" "}
+              Đăng nhập{" "}
+            </a>
           </label>
         </div>
       </form>
