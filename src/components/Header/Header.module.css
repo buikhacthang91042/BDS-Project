@@ -120,6 +120,7 @@
 }
 .dropdown li:hover {
   background-color:   rgba(211, 211, 211, 0.5);
+  transform: scale(1.03);
 
 }
 .dropdown li a {

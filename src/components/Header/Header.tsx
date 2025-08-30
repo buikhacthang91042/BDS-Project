@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./Header.module.css";
 import { log } from "console";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type MenuItem = {
   label: string;
@@ -61,18 +62,7 @@ const menus: MenuItem[] = [
     ],
   },
   { label: "Tin tức", link: "" },
-  {
-    label: "Wiki BĐS",
-    children: [
-      { label: "Mua BĐS", link: "" },
-      { label: "Bán BĐS", link: "" },
-      { label: "Thuê BĐS", link: "" },
-      { label: "Tài chính BĐS", link: "" },
-      { label: "Quy hoạch-Pháp lý", link: "" },
-      { label: "Nội-Ngoại thất", link: "" },
-      { label: "Phong thủy", link: "" },
-    ],
-  },
+
   {
     label: "Phân tích đánh giá",
     children: [
@@ -97,9 +87,20 @@ export default function Header() {
     logout();
     router.push("/");
   };
+  const handlePostProperty = () => {
+    if (!authUser) {
+      toast.warning("Vui lòng đăng nhập trước khi kí gửi BĐS");
+      router.push("/authen");
+    } else {
+      router.push("/post-property");
+    }
+  };
   return (
     <header className={styles.header}>
-      <h2 className={styles.logo}>🏡 Bất Động Sản</h2>
+      <a href="/">
+        <h2 className={styles.logo}>🏡 Bất Động Sản</h2>
+      </a>
+
       <nav className={styles.nav}>
         <ul className={styles.menu}>
           {menus.map((menu, i) => (
@@ -141,15 +142,14 @@ export default function Header() {
           </div>
           |
           <div className={styles.optionAuthenItem}>
-            
             <Link href="/register" className={styles.authLink}>
               Đăng kí
             </Link>
           </div>
           <div>
-            <Link href="/" className={styles.postNews}>
-              Đăng tin
-            </Link>
+            <button onClick={handlePostProperty} className={styles.postNews}>
+              Kí gửi BĐS
+            </button>
           </div>
         </div>
       )}

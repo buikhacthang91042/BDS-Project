@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterInput, RegisterSchema } from "../../../schemas/registerSchema";
@@ -8,12 +9,13 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 import useAuthStore from "../../store/useAuthStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import googleLogo from "../../assets/google.png";
 import facebooklogo from "../../assets/facebook.png";
 import backlogo from "../../assets/back.png";
+
 export default function RegisterForm() {
-  const { signUp } = useAuthStore();
+  const { signUp, fetchAuthUserFromToken } = useAuthStore();
   const router = useRouter();
   const {
     register,
@@ -23,6 +25,23 @@ export default function RegisterForm() {
     resolver: zodResolver(RegisterSchema),
   });
   const [agreeTermsError, setAgreeTermsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    const error = urlParams.get("error");
+    if (error) {
+      toast.error(
+        error === "google_failed"
+          ? "Đăng nhập bằng Google thất bại"
+          : "Đăng nhập bằng Facebook thất bại"
+      );
+    } else if (token) {
+      localStorage.setItem("authToken", token);
+      fetchAuthUserFromToken();
+      router.push("/");
+    }
+  }, [router, fetchAuthUserFromToken]);
 
   const onSubmit = (data: RegisterInput) => {
     setAgreeTermsError(null);
@@ -47,12 +66,20 @@ export default function RegisterForm() {
     );
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:5001/api/auth/google";
+  };
+
+  const handleFacebookLogin = () => {
+    window.location.href = "http://localhost:5001/api/auth/facebook";
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.backToDashBoard}>
         <a href="/" className={styles.buttonBackTitle}>
           <button type="button" className={styles.back}>
-            <Image src={backlogo} alt="google" className={styles.iconBack} />
+            <Image src={backlogo} alt="back" className={styles.iconBack} />
           </button>
           <p className={styles.backTitle}>Quay về trang chủ</p>
         </a>
@@ -65,7 +92,11 @@ export default function RegisterForm() {
         </p>
         <div className={styles.otherMethod}>
           <div className={styles.otherItemAuthen}>
-            <button type="button" className={styles.google}>
+            <button
+              type="button"
+              className={styles.google}
+              onClick={handleGoogleLogin}
+            >
               <Image
                 src={googleLogo}
                 alt="google"
@@ -75,10 +106,14 @@ export default function RegisterForm() {
             </button>
           </div>
           <div className={styles.otherItemAuthen}>
-            <button type="button" className={styles.facebook}>
+            <button
+              type="button"
+              className={styles.facebook}
+              onClick={handleFacebookLogin}
+            >
               <Image
                 src={facebooklogo}
-                alt="google"
+                alt="facebook"
                 className={styles.iconOtherPlatform}
               />
               <p>Đăng nhập với Facebook</p>

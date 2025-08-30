@@ -1,0 +1,225 @@
+.searchBox {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  gap: 16px;
+  align-items: center;
+  margin: 24px auto 0 auto;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  max-width: 2000px;
+  width: 1200px;
+  overflow: visible;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  transition: all 0.3s ease;
+}
+
+.searchBox:hover {
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.searchRow input {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #374151;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.searchRow input:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+.searchRow input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.searchBtn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.searchBtn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+}
+
+.searchBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.filters > div:last-child {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.filters > div:last-child > div {
+  position: relative;
+  display: inline-block;
+}
+
+.filters button:not(.searchBtn) {
+  background: #f8fafc;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.filters button:not(.searchBtn):hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filters button:not(.searchBtn):active,
+.filters button:not(.searchBtn):focus {
+  background: #e2e8f0;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchBox {
+    padding: 20px 16px;
+    margin: 16px auto 0 auto;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .searchRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .searchRow input {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .searchBtn {
+    width: 100%;
+    padding: 14px 24px;
+  }
+
+  .filters > div:last-child {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filters button:not(.searchBtn) {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchBox {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .filters {
+    gap: 12px;
+  }
+
+  .filters button:not(.searchBtn) {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Animation cho filter modals */
+.filters > div:last-child > div::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Hover effect cho province dropdown */
+.searchRow > div:first-child button {
+  background: #f1f5f9;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.searchRow > div:first-child button:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

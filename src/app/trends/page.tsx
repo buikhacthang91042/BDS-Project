@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useTrendStore from "@/store/useTrendStore";
 import styles from "../trends/trends.module.css";
+import MapView from "@/components/MapView/MapView";
 import {
   LineChart,
   Line,
@@ -36,9 +37,9 @@ export default function TrendPage() {
   const { hotspots, trend, loading, error, fetchHotspots, fetchPriceTrends } =
     useTrendStore();
   const [selectedProvince, setSelectedProvince] = useState<string>("");
-  const [inputValue, setInputValue] = useState<string>(""); // Giá trị nhập từ input
-  const [suggestions, setSuggestions] = useState<string[]>([]); // Danh sách gợi ý
-
+  const [inputValue, setInputValue] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showMap, setShowMap] = useState(false);
   const provinces = [
     "Tuyên Quang",
     "Lào Cai",
@@ -121,17 +122,17 @@ export default function TrendPage() {
     }
   }, [fetchHotspots, fetchPriceTrends, selectedProvince]);
 
-  const locations = [...new Set(trend.map((t) => t._id.location))];
+  const locations = [...new Set(trend.map((t) => t.location))];
   const chartData = trend.reduce((acc: ChartDataItem[], t) => {
-    const monthKey = `${t._id.month}/${t._id.year}`;
+    const monthKey = `${t.month}/${t.year}`;
     const existing = acc.find((d) => d.month === monthKey);
 
     if (existing) {
-      existing[t._id.location] = t.avgPrice;
+      existing[t.location] = t.avg_price;
     } else {
       const entry: ChartDataItem = {
         month: monthKey,
-        [t._id.location]: t.avgPrice,
+        [t.location]: t.avg_price,
       };
       acc.push(entry);
     }
@@ -187,29 +188,47 @@ export default function TrendPage() {
       ) : (
         <>
           <div className={styles.card}>
-            <h2>
-              Top 10 điểm nóng bất động sản{" "}
-              {selectedProvince === "Việt Nam" ? "Toàn quốc" : selectedProvince}
-            </h2>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Khu vực</th>
-                  <th>Số tin rao</th>
-                  <th>Giá trung bình (tỷ)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {hotspots.map((h, i) => (
-                  <tr key={i}>
-                    <td>{h._id}</td>
-                    <td>{h.count}</td>
-                    <td>{(h.avgPrice / 1e9).toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.headerHotspot}>
+              <h2>
+                Điểm nóng bất động sản{" "}
+                {selectedProvince === "Việt Nam"
+                  ? "Toàn quốc"
+                  : selectedProvince}
+              </h2>
+              <button onClick={() => setShowMap((prev) => !prev)}>
+                {showMap ? "TẮT BẢN ĐỒ" : "XEM BẢN ĐỒ"}
+              </button>
+            </div>
+            {showMap ? (
+              <MapView
+                province={
+                  selectedProvince !== "Việt Nam" ? selectedProvince : undefined
+                }
+              />
+            ) : (
+              <>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Khu vực</th>
+                      <th>Số tin rao</th>
+                      <th>Giá trung bình (tỷ)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hotspots.map((h, i) => (
+                      <tr key={i}>
+                        <td>{h.location}</td>
+                        <td>{h.count}</td>
+                        <td>{(h.avg_price / 1e9).toFixed(2)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
           </div>
+
           <div className={styles.card}>
             <h2>
               Xu hướng giá trung bình theo tháng tại{" "}

@@ -22,6 +22,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "bds-backend/middlewares/validateZod.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "bds-backend/middlewares/validateZod.ts",
+    "../bds-backend/generateMapping.ts"
+  ],
   "exclude": ["node_modules"]
 }

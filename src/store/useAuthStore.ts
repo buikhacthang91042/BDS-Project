@@ -1,10 +1,11 @@
+// useAuthStore.ts
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
 
 interface AuthState {
   isSigningup: boolean;
-  authUser: { name: string; phone: string } | null;
+  authUser: { name: string; phone: string | null; email: string | null } | null;
   tempSignupData: { name: string; phone: string; password: string } | null;
 }
 
@@ -49,7 +50,7 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
       if (res.status === 200) {
         const { token, user } = res.data;
         localStorage.setItem("authToken", token);
-        set({ authUser: user });
+        set({ authUser: { ...user, email: null } });
         toast.success("Đăng nhập thành công");
         navigate();
       } else {
@@ -80,6 +81,7 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
           authUser: {
             name: `${data.firstName} ${data.lastName}`.trim(),
             phone: data.phone,
+            email: null,
           },
         });
         navigate();
